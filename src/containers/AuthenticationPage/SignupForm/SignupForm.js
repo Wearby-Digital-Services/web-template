@@ -49,6 +49,8 @@ const SignupFormComponent = props => (
         userTypes,
         userFields,
         values,
+        submitButtonText,
+        showCaptchaPlaceholder,
       } = formRenderProps;
 
       const { userType } = values || {};
@@ -124,19 +126,6 @@ const SignupFormComponent = props => (
 
           {showDefaultUserFields ? (
             <div className={css.defaultUserFields}>
-              <FieldTextInput
-                type="email"
-                id={formId ? `${formId}.email` : 'email'}
-                name="email"
-                autoComplete="email"
-                label={intl.formatMessage({
-                  id: 'SignupForm.emailLabel',
-                })}
-                placeholder={intl.formatMessage({
-                  id: 'SignupForm.emailPlaceholder',
-                })}
-                validate={validators.composeValidators(emailRequired, emailValid)}
-              />
               <div className={css.name}>
                 <FieldTextInput
                   className={css.firstNameRoot}
@@ -175,6 +164,19 @@ const SignupFormComponent = props => (
                   )}
                 />
               </div>
+              <FieldTextInput
+                type="email"
+                id={formId ? `${formId}.email` : 'email'}
+                name="email"
+                autoComplete="email"
+                label={intl.formatMessage({
+                  id: 'SignupForm.emailLabel',
+                })}
+                placeholder={intl.formatMessage({
+                  id: 'SignupForm.emailPlaceholder',
+                })}
+                validate={validators.composeValidators(emailRequired, emailValid)}
+              />
 
               <UserFieldDisplayName
                 formName="SignupForm"
@@ -217,13 +219,16 @@ const SignupFormComponent = props => (
 
           <div className={css.bottomWrapper}>
             {termsAndConditions}
+            {/* {showCaptchaPlaceholder ? (
+              <div className={css.captchaPlaceholder}>I'm not a robot</div>
+            ) : null} */}
             {isPasswordUsedMoreThanOnce(values) ? (
               <div className={css.error}>
                 <FormattedMessage id="SignupForm.passwordRepeatedOnOtherFields" />
               </div>
             ) : null}
-            <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
-              <FormattedMessage id="SignupForm.signUp" />
+            <PrimaryButton type="submit" className={css.submitButton} inProgress={submitInProgress} disabled={submitDisabled}>
+              {submitButtonText || <FormattedMessage id="SignupForm.signUp" />}
             </PrimaryButton>
           </div>
         </Form>

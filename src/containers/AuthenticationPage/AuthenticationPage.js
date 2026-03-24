@@ -56,6 +56,8 @@ import { PrivacyPolicyContent } from '../../containers/PrivacyPolicyPage/Privacy
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 import { TOS_ASSET_NAME, PRIVACY_POLICY_ASSET_NAME } from './AuthenticationPage.duck';
+import signupImage from '../../assets/images/signupImage.png';
+import loginImageNew from '../../assets/images/loginImageNew.png';
 
 import css from './AuthenticationPage.module.css';
 import { FacebookLogo, GoogleLogo } from './socialLoginLogos';
@@ -269,31 +271,65 @@ export const AuthenticationForms = props => {
   })} & ${intl.formatMessage({ id: 'AuthenticationPage.loginLinkText' })}`;
 
   return (
-    <div className={css.content}>
-      <LinkTabNavHorizontal className={css.tabs} tabs={tabs} ariaLabel={ariaLabel} />
-      {loginOrSignupError}
-
+    <div className={css.contentWrapper}>
+      {/* <LinkTabNavHorizontal className={css.tabs} tabs={tabs} ariaLabel={ariaLabel} />   */}
       {isLogin ? (
-        <LoginForm className={css.loginForm} onSubmit={submitLogin} inProgress={authInProgress} />
+       <div className={css.signupLayout}>
+       <div className={css.signupPanel}>
+         <Heading as="h1" rootClassName={css.signupTitle}>
+           <FormattedMessage id="AuthenticationPage.welcomeBack" />
+         </Heading>
+         <p className={css.signupSubtitle}>
+           <FormattedMessage id="AuthenticationPage.forPurposeOfIndustryRegulation" />
+         </p>
+          {loginOrSignupError}
+          <LoginForm className={css.loginForm} onSubmit={submitLogin} inProgress={authInProgress} />
+          <SocialLoginButtonsMaybe
+            isLogin={isLogin}
+            showFacebookLogin={showFacebookLogin}
+            showGoogleLogin={showGoogleLogin}
+            {...fromMaybe}
+            {...userTypeMaybe}
+          />
+        </div>
+        <div className={css.signupImagePanel}>
+          <img src={loginImageNew} alt="" className={css.signupImage} />
+        </div>
+       </div>
       ) : (
-        <SignupForm
-          className={css.signupForm}
-          onSubmit={handleSubmitSignup}
-          inProgress={authInProgress}
-          termsAndConditions={termsAndConditions}
-          preselectedUserType={preselectedUserType}
-          userTypes={userTypes}
-          userFields={userFields}
-        />
+        <div className={css.signupLayout}>
+          <div className={css.signupPanel}>
+            <Heading as="h1" rootClassName={css.signupTitle}>
+              <FormattedMessage id="AuthenticationPage.signupLinkText" />
+            </Heading>
+            <p className={css.signupSubtitle}>
+              For the purpose of industry regulation, your details are required.
+            </p>
+            {loginOrSignupError}
+            <SignupForm
+              className={css.signupForm}
+              onSubmit={handleSubmitSignup}
+              inProgress={authInProgress}
+              termsAndConditions={termsAndConditions}
+              preselectedUserType={preselectedUserType}
+              userTypes={userTypes}
+              userFields={userFields}
+              submitButtonText="Continue"
+              showCaptchaPlaceholder
+            />
+            <SocialLoginButtonsMaybe
+              isLogin={isLogin}
+              showFacebookLogin={showFacebookLogin}
+              showGoogleLogin={showGoogleLogin}
+              {...fromMaybe}
+              {...userTypeMaybe}
+            />
+          </div>
+          <div className={css.signupImagePanel}>
+            <img src={signupImage} alt="" className={css.signupImage} />
+          </div>
+        </div>
       )}
-
-      <SocialLoginButtonsMaybe
-        isLogin={isLogin}
-        showFacebookLogin={showFacebookLogin}
-        showGoogleLogin={showGoogleLogin}
-        {...fromMaybe}
-        {...userTypeMaybe}
-      />
     </div>
   );
 };
@@ -650,17 +686,18 @@ export const AuthenticationPageComponent = props => {
       <LayoutSingleColumn
         mainColumnClassName={css.layoutWrapperMain}
         topbar={<TopbarContainer className={topbarClasses} />}
-        footer={<FooterContainer />}
+        // footer={<FooterContainer />}
       >
-        <ResponsiveBackgroundImageContainer
+        {/* <ResponsiveBackgroundImageContainer
           className={css.root}
           childrenWrapperClassName={css.contentContainer}
           as="section"
           image={config.branding.brandImage}
           sizes="100%"
           useOverlay
-        >
-          {showEmailVerification ? (
+        > */}
+        <div className={css.contentContainer}>
+        {showEmailVerification ? (
             <EmailVerificationInfo
               name={user.attributes.profile.firstName}
               email={<span className={css.email}>{user.attributes.email}</span>}
@@ -693,7 +730,8 @@ export const AuthenticationPageComponent = props => {
               }
             />
           )}
-        </ResponsiveBackgroundImageContainer>
+        </div>
+        {/* </ResponsiveBackgroundImageContainer> */}
       </LayoutSingleColumn>
       <Modal
         id="AuthenticationPage.tos"

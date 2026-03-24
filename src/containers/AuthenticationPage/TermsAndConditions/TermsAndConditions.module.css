@@ -11,14 +11,22 @@
 
 .finePrint {
   composes: marketplaceModalHelperLink from global;
-  padding: 3px 0 5px 0;
+  padding: 0;
   text-align: left;
+  font-family: Geist;
+font-weight: 400;
+font-style: Regular;
+font-size: 14px;
+leading-trim: NONE;
+line-height: 24px;
+letter-spacing: 0%;
+color: #8692A6;
 }
 
 .privacyLink,
 .termsLink {
   composes: marketplaceModalHelperLink from global;
-  color: var(--marketplaceColor);
+  color: #061C3D;
 
   &:hover {
     color: var(--marketplaceColorDark);
