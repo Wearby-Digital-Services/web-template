@@ -6,6 +6,7 @@ import BlockBuilder from '../../BlockBuilder';
 
 import SectionContainer from '../SectionContainer';
 import css from './SectionArticle.module.css';
+import ExploreVerifiedCreators from './ExploreVerifiedCreators/ExploreVerifiedCreators';
 
 /**
  * @typedef {Object} BlockConfig
@@ -68,6 +69,12 @@ const SectionArticle = props => {
   const hasHeaderFields = hasDataInFields([title, description, callToAction], fieldOptions);
   const hasBlocks = blocks?.length > 0;
 
+  switch (sectionId) {
+    case 'explore_verified_creators':
+      return <ExploreVerifiedCreators />;
+    default:
+      break;
+  }
   return (
     <SectionContainer
       id={sectionId}

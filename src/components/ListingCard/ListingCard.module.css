@@ -127,3 +127,155 @@
   word-break: break-word;
   hyphens: auto;
 }
+
+/* ================= Verified creator collection card variant ================= */
+
+.verifiedCreatorRoot {
+  text-decoration: none;
+}
+
+.verifiedCreatorRoot:hover {
+  text-decoration: none;
+}
+
+.verifiedCreatorMedia {
+  position: relative;
+}
+
+.verifiedCreatorAspect {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f1f1f1;
+
+}
+
+.verifiedCreatorImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.verifiedCreatorImageFallback {
+  width: 100%;
+  height: 100%;
+  background: var(--colorGrey100);
+}
+
+.verifiedCreatorBadge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: inline-flex;
+  align-items: center;
+  height: 54px;
+  width: 54px;
+  
+}
+
+.verifiedCreatorBadgeIcon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  align-items: center;
+  justify-content: center;
+}
+
+.verifiedCreatorBadgeText {
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.6px;
+  font-weight: var(--fontWeightSemiBold);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.verifiedCreatorItemsPill {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;;
+  padding: 8px 14px;
+  border-radius: 12px;
+  height: 47px;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--colorWhite);
+  font-family: Geist; 
+  font-weight: var(--fontWeightSemiBold);
+  font-size: 16px;
+  line-height: 27px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.verifiedCreatorMeta {
+  padding-top: 16px;
+}
+
+.verifiedCreatorCategory {
+  font-family: Inter; 
+  font-weight: var(--fontWeightSemiBold);
+  font-size: 14px;
+  line-height: 18px;
+  text-transform: uppercase;
+  
+  color: #4F46E5CC;
+  margin-bottom: 4px;
+}
+
+.verifiedCreatorName {
+  font-family: Geist; 
+  font-weight: Font Weight/medium;
+  font-style: Medium;
+  font-size: 20px;
+  line-height: 30px;
+  
+  color: #09090B;
+  margin: 0;
+}
+
+.verifiedCreatorSubtitle {
+  font-family: Geist; 
+  font-weight: Font Weight/medium;
+  font-style: Medium;
+  font-size: 16px;
+  line-height: 27px;
+  
+  color: #09090B;
+  margin-bottom: 16px;
+}
+
+.verifiedCreatorCtaRow {
+
+}
+
+.verifiedCreatorCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid #09090B;
+  color: var(--colorGrey900);
+  font-family: Geist; 
+  font-weight: var(--fontWeightMedium);
+  font-style: Medium;
+  font-size: 16px;
+  line-height: 27px;
+  color: #09090B;
+  background: var(--colorWhite);
+  width: 100%;
+  & svg{
+    fill: transparent;
+    margin-left: 4px;
+  }
+}
+
+.verifiedCreatorRoot:hover .verifiedCreatorCta {
+  border-color: #b8bfd1;
+}

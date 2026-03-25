@@ -15,11 +15,13 @@ import {
   NamedLink,
   ResponsiveImage,
   ListingCardThumbnail,
+  IconCheckmark,
 } from '../../components';
 
 import { getListingCardTranslations } from './ListingCard.helpers';
 
 import css from './ListingCard.module.css';
+import IconCollection from '../IconCollection/IconCollection';
 
 const LazyImage = lazyLoadWithDimensions(ResponsiveImage, { loadAfterInitialRendering: 3000 });
 
@@ -104,12 +106,62 @@ export const ListingCard = props => {
     rootClassName,
     aspectRatioClassName,
     darkMode,
+    variant,
+    thumbnailSrc,
+    verifiedLabel = 'VERIFIED',
+    itemsCountText,
+    categoryLabel,
+    creatorName,
+    creatorSubtitle,
+    ctaText,
+    ctaHref,
     listing,
     renderSizes,
     setActiveListing,
     showAuthorInfo = true,
     lazyLoadImage = true,
   } = props;
+
+  const classes = classNames(rootClassName || css.root, className);
+
+  if (variant === 'verifiedCreatorCollection') {
+    const safeHref = ctaHref || '#';
+    const categoryUpper = (categoryLabel || '').toUpperCase();
+    return (
+      <a className={classNames(classes, css.verifiedCreatorRoot)} href={safeHref}>
+        <div className={css.verifiedCreatorMedia}>
+          <AspectRatioWrapper className={css.verifiedCreatorAspect} width={317} height={421}>
+            {thumbnailSrc ? (
+              <img className={css.verifiedCreatorImage} src={thumbnailSrc} alt="" />
+            ) : (
+              <div className={css.verifiedCreatorImageFallback} />
+            )}
+            <div className={css.verifiedCreatorBadge} aria-label={verifiedLabel}>
+            <IconCollection name="verifyVadge"/>
+            </div>
+            {itemsCountText ? (
+              <div className={css.verifiedCreatorItemsPill} aria-label={itemsCountText}>
+                {itemsCountText}
+              </div>
+            ) : null}
+          </AspectRatioWrapper>
+        </div>
+
+        <div className={css.verifiedCreatorMeta}>
+          {categoryUpper ? <div className={css.verifiedCreatorCategory}>{categoryUpper}</div> : null}
+          {creatorName ? <div className={css.verifiedCreatorName}>{creatorName}</div> : null}
+          {creatorSubtitle ? (
+            <div className={css.verifiedCreatorSubtitle}>{creatorSubtitle}</div>
+          ) : null}
+          <div className={css.verifiedCreatorCtaRow}>
+            <span className={css.verifiedCreatorCta}>
+              {ctaText || 'View Collection'} <span aria-hidden="true"><IconCollection name="arrowRight" /></span>
+            </span>
+          </div>
+        </div>
+      </a>
+    );
+  }
 
   const translations = getListingCardTranslations(listing, config, intl);
   const {
@@ -121,8 +173,6 @@ export const ListingCard = props => {
     priceMessage,
     authorName,
   } = translations;
-
-  const classes = classNames(rootClassName || css.root, className);
 
   const id = listing?.id?.uuid;
   const { title = '', publicData } = listing?.attributes || {};
