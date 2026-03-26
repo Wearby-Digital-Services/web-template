@@ -1,12 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import { LinkedLogo } from '../../../../components';
+import { LinkedLogo, NamedLink } from '../../../../components';
 
 import Field from '../../Field';
 import BlockBuilder from '../../BlockBuilder';
 
 import SectionContainer from '../SectionContainer';
 import css from './SectionFooter.module.css';
+import IconCollection from '../../../../components/IconCollection/IconCollection';
+import { useLocation } from 'react-router-dom';
 
 // The number of columns (numberOfColumns) affects styling
 
@@ -104,6 +106,10 @@ const SectionFooter = props => {
 
   // use block builder instead of mapping blocks manually
 
+  const routeLocation = useLocation();  
+  const faqBuyerPage = routeLocation.pathname === '/faq-buyer' || routeLocation.pathname === '/faq-buyer/';
+ 
+
   return (
     <SectionContainer
       as="footer"
@@ -113,16 +119,20 @@ const SectionFooter = props => {
       appearance={appearance}
       options={fieldOptions}
     >
-      <div className={css.footer}>
+      <div className={classNames(css.footer, faqBuyerPage && css.footerColored)}>
         <div className={classNames(css.content, getContentCss(numberOfColumns))}>
           <div>
-            <LinkedLogo
+            {/* <LinkedLogo
               rootClassName={css.logoLink}
               logoClassName={css.logoWrapper}
               logoImageClassName={css.logoImage}
               linkToExternalSite={linkLogoToExternalSite}
               layout={logoLayout}
-            />
+            /> */}
+            <NamedLink name="LandingPage" className={css.logoLink} rootClassName={css.logoWrapper} logoImageClassName={css.logoImage} layout={logoLayout}>
+            {/* <IconCollection name="logo" /> */}
+            WEARBY
+            </NamedLink>
           </div>
           <div className={css.sloganMobile}>
             <Field data={slogan} className={css.slogan} />
@@ -136,12 +146,16 @@ const SectionFooter = props => {
                 <BlockBuilder blocks={linksWithBlockId} sectionId={sectionId} options={options} />
               </div>
             ) : null}
-            <Field data={copyright} className={css.copyright} />
+
           </div>
           <div className={classNames(css.grid, getGridCss(numberOfColumns))}>
             <BlockBuilder blocks={blocks} sectionId={sectionId} options={options} />
           </div>
         </div>
+      </div>
+      <div className={css.copyrightContainer}>
+        <span className={css.copyrightText}>All rights reserved.</span>
+      <Field data={copyright} className={css.copyright} />
       </div>
     </SectionContainer>
   );

@@ -4,7 +4,7 @@
 .root {
   /* Size */
   width: 100%;
-  height: var(--topbarHeightDesktop);
+  height: 80px;
 
   /* Layout for child components */
   display: flex;
@@ -16,13 +16,29 @@
   /* fill */
 
   /* shadows */
-  box-shadow: var(--boxShadowLight);
+  /* box-shadow: var(--boxShadowLight); */
 
   @media (--viewportLarge) {
     padding: 0 24px 0 0;
   }
 }
-
+.topbarDesktopLeft{
+  padding-left: 82px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.topbarDesktopRight{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
 /* logo */
 .logoLink {
   border-bottom: 0px solid;
@@ -101,7 +117,6 @@
 
   &:hover {
     color: var(--colorBlack);
-    border-bottom: 4px solid var(--marketplaceColor);
     border-radius: 0;
     text-decoration: none;
   }
@@ -109,6 +124,62 @@
   @media (--viewportMedium) {
     line-height: 16px;
     margin: 0;
+  }
+}
+.signupLink {
+  flex-shrink: 0;
+  background-color: white;
+  border-radius: 100px;
+  border-bottom: 0px solid;
+  transition: var(--transitionStyleButton);
+  height: 40px;
+  font-family: Geist;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 27px;
+  letter-spacing: 0.2px;
+  vertical-align: middle;
+  
+  color: var(--colorGrey700);
+
+  padding: 0 16px 0 16px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+
+    text-decoration: none;
+  }
+}
+.loginLink {
+  flex-shrink: 0;
+  background-color: #09090B;
+  border-radius: 100px;
+  border-bottom: 0px solid;
+  transition: var(--transitionStyleButton);
+  height: 40px;
+  font-family: Geist;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 27px;
+  letter-spacing: 0.2px;
+  vertical-align: middle;
+  
+  color: white;
+
+  padding: 0 16px 0 16px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+
+    text-decoration: none;
   }
 }
 
@@ -192,6 +263,7 @@
 
 .avatar {
   margin: 16px 0;
+  border-radius: 8px;
 }
 
 .profileMenuContent {

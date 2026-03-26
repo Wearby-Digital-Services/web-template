@@ -1,18 +1,42 @@
 @import '../../../../styles/customMediaQueries.css';
 
 .root {
-  border-top: 1px solid var(--colorGrey100);
+
+  padding: 0 20px;
+  &>div{
+    padding: 0;
+    & h3{
+      font-family: Geist;
+font-weight: 400;
+font-style: Regular;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 24px;
+letter-spacing: 0px;
+vertical-align: middle;
+color: #fff;
+padding: 0;
+margin: 0 0 18px;
+    }
+  }
 }
 
 .footer {
-  max-width: var(--contentMaxWidthPages);
+  max-width: 1400px;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 32px;
   margin: 0 auto;
-  padding: 24px 32px;
+  padding: 100px 70px;
+  background-color: #231F26;
+  border-radius: 16px;
 }
-
+.footerColored{
+  background-color: #E4C1F9;
+  & a, & h3, & span{
+    color: #09090B !important;
+  }
+}
 .footer ul {
   list-style-type: none;
   padding-inline-start: 0px;
@@ -58,10 +82,33 @@
 .detailsInfo {
   grid-area: links;
 }
-
+.copyrightContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Geist;
+font-weight: 400;
+font-style: Regular;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 24px;
+letter-spacing: 0px;
+vertical-align: middle;
+color: #09090B;
+padding: 8px 0 16px;
+}
 .slogan {
+  font-family: Geist;
+  font-weight: 400;
+  font-style: Regular;
   font-size: 16px;
+  leading-trim: NONE;
   line-height: 24px;
+  letter-spacing: 0px;
+  vertical-align: middle;
+  color: #fff;  
+  max-width: 260px;
+    display: block;
 }
 .sloganMobile {
   grid-area: details;
@@ -85,10 +132,7 @@
 
 .copyright {
   display: inline-block;
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--colorGrey600);
-  margin-top: 24px;
+
 }
 
 .icons {
@@ -108,7 +152,15 @@
 .logoLink {
   display: inline-block;
   padding: 0;
-
+  font-family: Inter;
+  font-weight: 600;
+  font-style: Semi Bold;
+  font-size: 18px;
+  leading-trim: NONE;
+  line-height: 28px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #fff;
   &:hover {
     text-decoration: none;
   }
@@ -174,9 +226,9 @@
   }
   .contentCol3 {
     /* 3/6 of space is for grid, and grid splits it to 3 columns */
-    grid-template-columns: 2fr 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
     grid-template-areas:
-      'logo . . .'
+      'logo . grid grid'
       'details . grid grid'
       'details . grid grid'
       'details . grid grid';

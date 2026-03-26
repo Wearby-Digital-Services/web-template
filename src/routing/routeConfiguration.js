@@ -9,6 +9,8 @@ import PreviewResolverPage from '../containers/PreviewResolverPage/PreviewResolv
 // Otherwise, components will import form container eventually and
 // at that point css bundling / imports will happen in wrong order.
 import { NamedRedirect } from '../components';
+import FaqBuyerPage from '../containers/FaqBuyerPage/FaqBuyerPage';
+import FaqSellerPage from '../containers/FaqSellerPage/FaqSellerPage';
 
 const pageDataLoadingAPI = getPageDataLoadingAPI();
 
@@ -110,6 +112,16 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       path: '/l',
       name: 'ListingBasePage',
       component: RedirectToLandingPage,
+    },
+    {
+      path: '/faq-buyer',
+      name: 'FaqBuyerPage',
+      component: FaqBuyerPage,
+    },
+    {
+      path: '/faq-seller',
+      name: 'FaqSellerPage',
+      component: FaqSellerPage,
     },
     {
       path: '/l/:slug/:id',

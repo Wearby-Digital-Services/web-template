@@ -17,6 +17,7 @@ import {
   LinkedLogo,
   Modal,
   ModalMissingInformation,
+  NamedLink,
 } from '../../../components';
 import { getSearchPageResourceLocatorStringParams } from '../../SearchPage/SearchPage.shared';
 
@@ -28,6 +29,7 @@ import TopbarDesktop from './TopbarDesktop/TopbarDesktop';
 
 import css from './Topbar.module.css';
 import { getCurrentUserTypeRoles, showCreateListingLinkForUser } from '../../../util/userHelpers';
+import IconCollection from '../../../components/IconCollection/IconCollection';
 
 const MAX_MOBILE_SCREEN_WIDTH = 1024;
 
@@ -131,6 +133,25 @@ const GenericError = props => {
 };
 
 const TopbarComponent = props => {
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const {
     className,
     rootClassName,
@@ -223,10 +244,10 @@ const TopbarComponent = props => {
   const topbarInboxTab = !isCustomer
     ? 'sales'
     : !isProvider
-    ? 'orders'
-    : currentUserHasListings
-    ? 'sales'
-    : 'orders';
+      ? 'orders'
+      : currentUserHasListings
+        ? 'sales'
+        : 'orders';
 
   const { mobilemenu, mobilesearch, keywords, address, origin, bounds } = parse(location.search, {
     latlng: ['origin'],
@@ -272,15 +293,20 @@ const TopbarComponent = props => {
     return {
       location: locationFieldsPresent
         ? {
-            search: address,
-            selectedPlace: { address, origin, bounds },
-          }
+          search: address,
+          selectedPlace: { address, origin, bounds },
+        }
         : null,
     };
   };
   const initialSearchFormValues = topbarSearcInitialValues();
 
-  const classes = classNames(rootClassName || css.root, className);
+  const pinkHeader = resolvedCurrentPage == 'FaqBuyerPage';
+  const blueHeader = resolvedCurrentPage == 'FaqSellerPage';
+
+  const classes = classNames(rootClassName || css.root, pinkHeader && css.pinkHeader, blueHeader && css.blueHeader, className, {
+    [css.scrolled]: isScrolled && resolvedCurrentPage == 'LandingPage', [css.landingHeader]: resolvedCurrentPage == 'LandingPage',
+  });
 
   const { display: searchFormDisplay = SEARCH_DISPLAY_ALWAYS } = config?.topbar?.searchBar || {};
 
@@ -352,19 +378,34 @@ const TopbarComponent = props => {
           onClick={() => redirectToURLWithModalState(history, location, 'mobilemenu')}
           title={intl.formatMessage({ id: 'Topbar.menuIcon' })}
         >
-          <MenuIcon
+          {/* <MenuIcon
             className={css.menuIcon}
             ariaLabel={intl.formatMessage({ id: 'Topbar.menuIcon' })}
-          />
+          /> */}
+        
+          <IconCollection name="logo_white_mobile" />
           {notificationDot}
         </Button>
-        <LinkedLogo
+        {/* <LinkedLogo
           id="logo-topbar-mobile"
           layout={'mobile'}
           alt={intl.formatMessage({ id: 'Topbar.logoIcon' })}
           linkToExternalSite={config?.topbar?.logoLink}
-        />
-        {mobileSearchButtonMaybe}
+        /> */}
+        <div className={css.signupLinkContainer}>
+
+          <NamedLink id="login-link" name="LoginPage" className={css.loginLink}>
+            <span >
+              <FormattedMessage id="TopbarDesktop.login" />
+            </span>
+          </NamedLink>
+          <NamedLink id="signup-link" name="SignupPage" className={css.signupLink}>
+            <span >
+              <FormattedMessage id="TopbarDesktop.signup" />
+            </span>
+          </NamedLink>
+        </div>
+        {/* {mobileSearchButtonMaybe} */}
       </nav>
       <div className={css.desktop}>
         <TopbarDesktop
@@ -383,6 +424,7 @@ const TopbarComponent = props => {
           showSearchForm={showSearchForm}
           showCreateListingsLink={showCreateListingsLink}
           inboxTab={topbarInboxTab}
+          isScrolled={isScrolled}
         />
       </div>
       <Modal

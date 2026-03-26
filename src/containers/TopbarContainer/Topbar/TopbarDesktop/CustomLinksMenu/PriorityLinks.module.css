@@ -25,7 +25,6 @@
 
   &:hover {
     color: var(--colorBlack);
-    border-bottom: 4px solid var(--marketplaceColor);
     border-radius: 0;
     text-decoration: none;
   }
@@ -46,7 +45,7 @@
 .priorityLinkLabel {
   composes: textSmall from global;
   display: inline-block;
-  margin: 28px 0;
+  margin: 32px 0;
   text-decoration: inherit;
   text-wrap: nowrap;
 }

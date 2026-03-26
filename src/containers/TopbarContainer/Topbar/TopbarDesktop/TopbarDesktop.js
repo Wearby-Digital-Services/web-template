@@ -18,11 +18,12 @@ import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
 import CustomLinksMenu from './CustomLinksMenu/CustomLinksMenu';
 
 import css from './TopbarDesktop.module.css';
+import IconCollection from '../../../../components/IconCollection/IconCollection';
 
 const SignupLink = () => {
   return (
-    <NamedLink id="signup-link" name="SignupPage" className={css.topbarLink}>
-      <span className={css.topbarLinkLabel}>
+    <NamedLink id="signup-link" name="SignupPage" className={css.signupLink}>
+      <span >
         <FormattedMessage id="TopbarDesktop.signup" />
       </span>
     </NamedLink>
@@ -31,8 +32,8 @@ const SignupLink = () => {
 
 const LoginLink = () => {
   return (
-    <NamedLink id="login-link" name="LoginPage" className={css.topbarLink}>
-      <span className={css.topbarLinkLabel}>
+    <NamedLink id="login-link" name="LoginPage" className={css.loginLink}>
+      <span >
         <FormattedMessage id="TopbarDesktop.login" />
       </span>
     </NamedLink>
@@ -152,6 +153,7 @@ const TopbarDesktop = props => {
     showSearchForm,
     showCreateListingsLink,
     inboxTab,
+    isScrolled,
   } = props;
   const [mounted, setMounted] = useState(false);
 
@@ -204,15 +206,19 @@ const TopbarDesktop = props => {
       className={classes}
       aria-label={intl.formatMessage({ id: 'TopbarDesktop.screenreader.topbarNavigation' })}
     >
-      <LinkedLogo
-        id="logo-topbar-desktop"
-        className={css.logoLink}
-        layout="desktop"
-        alt={intl.formatMessage({ id: 'TopbarDesktop.logo' }, { marketplaceName })}
-        linkToExternalSite={config?.topbar?.logoLink}
-      />
-      {searchFormMaybe}
+      <NamedLink name="LandingPage" className={css.topbarDesktopLeft}>
+      {currentPage !== 'LandingPage' ? (
+        <IconCollection name="logo_black" />
+      ) :
+      
+      isScrolled ? (
+          <IconCollection name="logo_black" />
+       
+      ) : <IconCollection name="logo_white" />}
+      </NamedLink>
+      {/* {searchFormMaybe} */}
 
+      <div className={css.topbarDesktopRight}>
       <CustomLinksMenu
         currentPage={currentPage}
         customLinks={customLinks}
@@ -223,8 +229,10 @@ const TopbarDesktop = props => {
 
       {inboxLinkMaybe}
       {profileMenuMaybe}
-      {signupLinkMaybe}
+      
       {loginLinkMaybe}
+      {signupLinkMaybe}
+      </div>
     </nav>
   );
 };
