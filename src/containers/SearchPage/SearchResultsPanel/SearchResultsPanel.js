@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { propTypes } from '../../../util/types';
 import { ListingCard, PaginationLinks } from '../../../components';
 
+import signupImage from '../../../assets/images/signupImage.png';
+
 import css from './SearchResultsPanel.module.css';
 
 /**
@@ -75,6 +77,16 @@ const SearchResultsPanel = props => {
   return (
     <div className={classes}>
       <ul className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>
+        {/* {listings.map(l => (
+          <li key={l.id.uuid} className={css.resultItem}>
+            <ListingCard
+              className={css.listingCard}
+              listing={l}
+              renderSizes={cardRenderSizes(isMapVariant)}
+              setActiveListing={setActiveListing}
+            />
+          </li>
+        ))} */}
         {listings.map(l => (
           <li key={l.id.uuid} className={css.resultItem}>
             <ListingCard
@@ -82,6 +94,14 @@ const SearchResultsPanel = props => {
               listing={l}
               renderSizes={cardRenderSizes(isMapVariant)}
               setActiveListing={setActiveListing}
+              variant="verifiedCreatorCollection"
+              thumbnailSrc={signupImage}
+              itemsCountText="20+ items"
+              categoryLabel="Creator"
+              creatorName="Verified creator"
+              creatorSubtitle="Content Creator & Entrepreneur"
+              ctaText="View Collection"
+              ctaHref="#"
             />
           </li>
         ))}

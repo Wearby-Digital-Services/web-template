@@ -2,7 +2,7 @@
 
 .topbar {
   width: 100%;
-
+  background-color: #fff;
   /* Top Bar's drop shadow should always be visible */
   z-index: var(--zIndexTopbar);
   position: relative;
@@ -140,14 +140,16 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 24px 0 24px;
+  padding: 0 56px 36px;
+  @media (max-width: 767px) {
+    padding: 0 16px 20px;
+  }
 
   @media (--viewportMedium) {
     /**
      * Calculate right padding to match Footer right border
      * and left padding together with border should be 60px.
      */
-    padding: 24px 24px 0 24px;
     background-color: var(--colorWhite);
     border-left-width: 1px;
     border-left-style: solid;
@@ -155,40 +157,271 @@
 
     scroll-margin-top: var(--topbarHeightDesktop);
   }
-
-  @media (--viewportLarge) {
-    /**
-     * Calculate right padding to match Footer right border
-     * and left padding together with border should be 60px.
-     */
-    padding: 40px 36px 0 36px;
-  }
-
-  @media (min-width: 1440px) {
-    padding: 40px calc((100vw - 1368px) / 2) 0 59px;
-  }
-  @media (--viewportXLarge) {
-    padding: 40px calc((100vw - 1800px) / 2) 0 59px;
-  }
 }
 
 .searchResultContainer {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 2px 0 0 0;
-
+  padding:  0 0 0;
+  max-width: 1328px;
+  width: 100%;
+  margin: 0 auto;
   @media (--viewportMedium) {
     padding: 0;
     /**
      * .container is using flexbox,
      * This specifies that searchResultContainer is taking 60% from the viewport width
      */
-    flex-basis: 50%;
   }
+}
 
-  @media (--viewportLarge) {
-    flex-basis: 62.5%;
+.searchBanner {
+  padding: 36px 56px 36px;
+  background-color: #fff;
+  margin-top: 80px;
+  @media (max-width: 1023px) {
+    padding: 24px 20px 16px;
+    margin-top: 72px;
+  }
+  @media (max-width: 767px) {
+    padding: 22px 16px 36px;
+    margin-top: 0;
+  }
+}
+
+.searchBannerInner {
+  max-width: 1328px;
+  margin: 0 auto;
+  padding: 64px 64px 64px;
+  border-radius: 30px;
+  border: none;
+  background: url('../../assets/images/searchBanner.jpg') no-repeat bottom center;
+  /* box-shadow: 0 14px 44px rgba(53, 0, 97, 0.12); */
+  text-align: center;
+  @media (max-width: 1023px) {
+    padding: 96px 16px 96px;
+    border-radius: 24px;
+  }
+  @media (max-width: 767px) {
+    border-radius: 30px;
+  }
+}
+
+.searchBannerTitle {
+  font-family: Inter;
+  font-weight: bold;
+  font-style: Bold;
+  font-size: 56px;
+  line-height: 64px;
+  text-indent: 0;
+  letter-spacing: 0;
+  vertical-align: middle;
+  text-transform: uppercase;
+  color: #4C205F;
+  max-width: 536px;
+  margin: 0 auto 16px;
+  padding: 0;
+  text-transform: uppercase;
+  @media (max-width: 1023px) {
+    font-size: 40px;
+    line-height: 46px;
+  }
+  @media (max-width: 767px) {
+    font-size: 34px;
+    line-height: 46px;
+    margin: 0 auto 12px;
+    max-width: 100%;
+  }
+}
+
+.searchBannerSubtitle {
+  font-family: Geist;
+  font-weight: regular;
+  font-style: Regular;
+  font-size: 18px;
+  leading-trim: NONE;
+  line-height: 27px;
+  text-indent: 0;
+  letter-spacing: 0;
+  text-align: center;
+  vertical-align: middle;
+  
+  color: #7A498F;
+  margin: 0 auto 24px;
+  max-width: 450px;
+  padding: 0;
+  @media (max-width: 767px) {
+    margin: 0 auto 24px;
+    max-width: 480px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.searchBannerForm {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  @media (max-width: 767px) {
+    margin-top: 0;
+  }
+}
+
+.searchBannerFieldGroup {
+  width: 100%;
+  max-width: 690px;
+  height: 62px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(9, 9, 11, 0.08);
+  box-shadow: 0 8px 24px rgba(9, 9, 11, 0.08);
+  display: flex;
+  align-items: center;
+  padding: 12px 12px 12px 20px;
+  gap: 10px;
+  @media (max-width: 767px) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px 12px;
+    background: #f6f6f6;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.searchBannerIcon {
+  color: rgba(9, 9, 11, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  & svg{
+    fill: transparent;
+  }
+  @media (max-width: 767px) {
+    /* order: 1; */
+  }
+}
+
+.searchBannerInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0;
+  font-family: Geist;
+  font-weight: regular;
+  font-style: Regular;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 27px;
+  text-indent: 0;
+  letter-spacing: 0;
+  vertical-align: middle;
+  
+  color: rgba(9, 9, 11, 0.8);
+  flex: 1 1 auto;
+  min-width: 220px;
+  &:hover, 
+  &:focus{
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+  }
+  @media (max-width: 767px) {
+    /* order: 2; */
+    min-width: 0;
+    width: calc(100% - 40px);
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.searchBannerInput::placeholder {
+  color: rgba(9, 9, 11, 0.35);
+}
+
+.searchBannerDivider {
+  width: 1px;
+  height: 20px;
+  background: rgba(9, 9, 11, 0.12);
+  flex: 0 0 auto;
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+.searchBannerSelectGroup{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+}
+.searchBannerSelect {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: Geist;
+  font-weight: regular;
+  font-style: Regular;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 27px;
+  text-indent: 0;
+  color: rgba(9, 9, 11, 0.6);
+  padding: 0 6px 0 0;
+  flex: 0 0 118px;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M8.47026 10.4696C8.34524 10.5946 8.1757 10.6648 7.99893 10.6648C7.82215 10.6648 7.65261 10.5946 7.52759 10.4696L3.75626 6.69832C3.69259 6.63682 3.6418 6.56326 3.60686 6.48192C3.57192 6.40058 3.55353 6.3131 3.55276 6.22458C3.55199 6.13606 3.56886 6.04828 3.60238 5.96635C3.6359 5.88442 3.6854 5.80998 3.748 5.74739C3.81059 5.68479 3.88503 5.63529 3.96696 5.60177C4.04889 5.56825 4.13667 5.55138 4.22519 5.55215C4.31371 5.55292 4.40119 5.57131 4.48253 5.60625C4.56387 5.64119 4.63743 5.69198 4.69893 5.75565L7.99893 9.05565L11.2989 5.75565C11.4247 5.63421 11.5931 5.56701 11.7679 5.56853C11.9427 5.57005 12.1099 5.64016 12.2335 5.76377C12.3571 5.88738 12.4272 6.05458 12.4287 6.22938C12.4302 6.40418 12.363 6.57258 12.2416 6.69832L8.47026 10.4696Z' fill='%23858A91'/%3E%3C/svg%3E%0A");
+  &:hover, 
+  &:focus{
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+  }
+  @media (max-width: 767px) {
+    order: 3;
+    flex: 1 1 auto;
+    flex-basis: 180px;
+    font-size: 16px;
+    line-height: 24px;
+    padding-right: 26px;
+    background-position: right 2px center;
+    background-size: 16px;
+  }
+}
+
+.searchBannerButton {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: none;
+  background: #0b0b0f;
+  color: #ffffff;
+  font-family: Geist;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 27px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  @media (max-width: 767px) {
+    order: 4;
+    height: 40px;
+    min-width: 85px;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 0 16px;
   }
 }
 

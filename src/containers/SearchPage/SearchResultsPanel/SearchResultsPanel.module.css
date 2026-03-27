@@ -31,14 +31,16 @@
 
 .listingCards {
   padding: 0 0 72px 0;
-
+ margin: 0;
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 16px 10px;
   width: 100%;
 
   @media (min-width: 550px) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
 
   @media (--viewportMedium) {
@@ -54,9 +56,6 @@
     grid-template-columns: repeat(4, 1fr);
   }
 
-  @media (--viewportXLarge) {
-    grid-template-columns: repeat(5, 1fr);
-  }
 }
 
 .listingCard {

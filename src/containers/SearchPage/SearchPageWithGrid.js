@@ -389,8 +389,9 @@ export class SearchPageComponent extends Component {
         schema={schema}
       >
         <TopbarContainer rootClassName={topbarClasses} currentSearchParams={validQueryParams} />
-        <div className={css.layoutWrapperContainer}>
-          <aside className={css.layoutWrapperFilterColumn} data-testid="filterColumnAside">
+        <div>
+        {/* className={css.layoutWrapperContainer} */}
+          {/* <aside className={css.layoutWrapperFilterColumn} data-testid="filterColumnAside">
             <div className={css.filterColumnContent}>
               {availableFilters.map(filterConfig => {
                 const key = `SearchFiltersDesktop.${filterConfig.scope || 'built-in'}.${
@@ -420,11 +421,81 @@ export class SearchPageComponent extends Component {
                 <FormattedMessage id={'SearchFiltersMobile.resetAll'} />
               </button>
             </div>
-          </aside>
+          </aside> */}
+
+          <div className={css.searchBanner}>
+            <div className={css.searchBannerInner}>
+              <h1 className={css.searchBannerTitle}>
+                {intl.formatMessage({ id: 'SearchPage.banner.title' })}
+              </h1>
+              <p className={css.searchBannerSubtitle}>
+                {intl.formatMessage({ id: 'SearchPage.banner.subtitle' })}
+              </p>
+
+              <form
+                className={css.searchBannerForm}
+                onSubmit={e => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const keywords = (formData.get('seller') || '').toString().trim();
+
+                  const urlQueryParams = validUrlQueryParamsFromProps(this.props);
+                  const { routeName, pathParams } = getSearchPageResourceLocatorStringParams(
+                    routeConfiguration,
+                    location
+                  );
+
+                  const searchParams = {
+                    ...urlQueryParams,
+                    ...(keywords ? { keywords } : { keywords: null }),
+                  };
+
+                  history.push(
+                    createResourceLocatorString(routeName, routeConfiguration, pathParams, searchParams)
+                  );
+                }}
+              >
+                <div className={css.searchBannerFieldGroup}>
+                  <span className={css.searchBannerIcon} aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 17L21 21M19 11C19 8.87827 18.1571 6.84344 16.6569 5.34315C15.1566 3.84285 13.1217 3 11 3C8.87827 3 6.84344 3.84285 5.34315 5.34315C3.84285 6.84344 3 8.87827 3 11C3 13.1217 3.84285 15.1566 5.34315 16.6569C6.84344 18.1571 8.87827 19 11 19C13.1217 19 15.1566 18.1571 16.6569 16.6569C18.1571 15.1566 19 13.1217 19 11Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                  </span>
+                  <input
+                    className={css.searchBannerInput}
+                    name="seller"
+                    type="text"
+                    defaultValue={parse(location.search)?.keywords || ''}
+                    placeholder={intl.formatMessage({ id: 'SearchPage.banner.searchPlaceholder' })}
+                    aria-label={intl.formatMessage({ id: 'SearchPage.banner.searchPlaceholder' })}
+                    autoComplete="off"
+                  />
+
+                  <div className={css.searchBannerDivider} aria-hidden="true" />
+
+                 <div className={css.searchBannerSelectGroup}>
+                 <select
+                    className={css.searchBannerSelect}
+                    name="category"
+                    defaultValue=""
+                    aria-label={intl.formatMessage({ id: 'SearchPage.banner.categoryLabel' })}
+                  >
+                    <option value="">{intl.formatMessage({ id: 'SearchPage.banner.categoryLabel' })}</option>
+                  </select>
+
+                  <button className={css.searchBannerButton} type="submit">
+                    {intl.formatMessage({ id: 'SearchPage.banner.searchButton' })}
+                  </button>
+                 </div>
+                </div>
+              </form>
+            </div>
+          </div>
 
           <div id="main-content" className={css.layoutWrapperMain} role="main">
             <div className={css.searchResultContainer}>
-              <SearchFiltersMobile
+              {/* <SearchFiltersMobile
                 className={css.searchFiltersMobileList}
                 urlQueryParams={validQueryParams}
                 sortByComponent={sortBy('mobile')}
@@ -475,7 +546,7 @@ export class SearchPageComponent extends Component {
                 searchInProgress={searchInProgress}
                 searchListingsError={searchListingsError}
                 noResultsInfo={noResultsInfo}
-              />
+              /> */}
               <div
                 className={classNames(css.listingsForGridVariant, {
                   [css.newSearchInProgress]: !(listingsAreLoaded || searchListingsError),

@@ -146,7 +146,9 @@
   border-radius: 20px;
   overflow: hidden;
   background: #f1f1f1;
-
+  @media (max-width: 767px) {
+    border-radius: 8px;
+  }
 }
 
 .verifiedCreatorImage {
@@ -214,6 +216,9 @@
 
 .verifiedCreatorMeta {
   padding-top: 16px;
+  @media (max-width: 767px) {
+    padding-top: 8px;
+  }
 }
 
 .verifiedCreatorCategory {
@@ -225,6 +230,10 @@
   
   color: #4F46E5CC;
   margin-bottom: 4px;
+  @media (max-width: 767px) {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }
 
 .verifiedCreatorName {
@@ -235,7 +244,11 @@
   line-height: 30px;
   
   color: #09090B;
-  margin: 0;
+  margin: 0 0 4px 0;
+  @media (max-width: 767px) {
+    font-size: 14px;
+    line-height: 18px;
+  }
 }
 
 .verifiedCreatorSubtitle {
@@ -247,6 +260,10 @@
   
   color: #09090B;
   margin-bottom: 16px;
+  @media (max-width: 767px) {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }
 
 .verifiedCreatorCtaRow {
@@ -273,6 +290,9 @@
   & svg{
     fill: transparent;
     margin-left: 4px;
+  }
+  @media (max-width: 767px) {
+    padding: 0 8px;
   }
 }
 

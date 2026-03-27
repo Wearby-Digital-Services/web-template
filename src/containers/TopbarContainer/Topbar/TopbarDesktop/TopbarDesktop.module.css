@@ -186,7 +186,7 @@
 .topbarLinkLabel {
   composes: textSmall from global;
   display: inline-block;
-  margin: 28px 0;
+  margin: 32px 0;
   text-decoration: inherit;
   position: relative;
 }

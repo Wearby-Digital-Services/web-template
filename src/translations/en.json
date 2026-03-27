@@ -1483,5 +1483,11 @@
   "FaqSellerPage.items.approvalTime.question": "How long does approval take?",
   "FaqSellerPage.items.approvalTime.answer": "Take out within 24 hours.",
   "FaqSellerPage.items.removeAfterListing.question": "Can I remove an item after listing it?",
-  "FaqSellerPage.items.removeAfterListing.answer": "Yes. You can remove a listing at any time from your seller dashboard."
+  "FaqSellerPage.items.removeAfterListing.answer": "Yes. You can remove a listing at any time from your seller dashboard.",
+
+  "SearchPage.banner.title": "PERSONAL ITEMS.\nREAL PEOPLE.",
+  "SearchPage.banner.subtitle": "Unique pieces directly from verified creators, athletes\nand performers.",
+  "SearchPage.banner.searchPlaceholder": "Search by seller name",
+  "SearchPage.banner.categoryLabel": "Category",
+  "SearchPage.banner.searchButton": "Search"
 }
