@@ -15,6 +15,12 @@ box-shadow: none;
 .blueHeader{
   background-color: #A4C8DE;
 }
+.yellowHeader{
+  background-color: #EDC380;
+}
+.grayHeader{
+  background-color: #E1DFDA;
+}
 .landingHeader{
   position: fixed;
   background-color: transparent;

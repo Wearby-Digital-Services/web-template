@@ -165,11 +165,11 @@
 .fourColumns .block {
   @media (--viewportMedium) {
     /* 64px (horizontal layout paddings) - 96px (three gutters á 32px) / 4 (number of columns) */
-    width: calc((min(var(--contentMaxWidthPages), var(--carouselWidth)) - 64px - 96px) / 4);
+    width: calc((min(1600px, 1600px) - 64px - 96px) / 4);
 
     &:last-of-type {
       /* 32px (padding-right above) / 4 (number of columns) */
-      width: calc((min(var(--contentMaxWidthPages), var(--carouselWidth)) - 32px) / 4);
+      width: calc((min(1600px, 1600px) - 32px) / 4);
     }
   }
 }

@@ -15,6 +15,7 @@
 .main {
   display: grid;
   scroll-margin-top: var(--topbarHeight);
+
   @media (--viewportMedium) {
     scroll-margin-top: var(--topbarHeightDesktop);
   }
@@ -26,4 +27,104 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+:global(#terms_conditions) {
+
+  & header {
+    background: linear-gradient(180deg, #EDC380 0%, #ffffff 62%);
+    max-width: 100%;
+    padding: 70px 16px 160px;
+    justify-content: center;
+
+    @media (max-width: 767px) {
+      padding: 70px 16px 130px;
+    }
+
+    & h1 {
+      font-family: Inter;
+      font-weight: 700;
+      font-style: Bold;
+      font-size: 48px;
+      leading-trim: NONE;
+      line-height: 60px;
+      text-indent: 0;
+      letter-spacing: -2px;
+      vertical-align: middle;
+      color: #554B00;
+      margin: 0 0 8px;
+      text-align: left;
+      padding: 0;
+
+      @media (max-width: 767px) {
+        font-size: 28px;
+        line-height: 36px;
+        text-align: center;
+      }
+    }
+
+    & p {
+      font-family: Geist;
+      font-weight: 400;
+      font-style: Regular;
+      font-size: 16px;
+      leading-trim: NONE;
+      line-height: 27px;
+      text-indent: 0;
+      letter-spacing: 0;
+      text-align: left;
+      vertical-align: middle;
+      color: #554B00;
+      margin: 0 0;
+      text-align: left;
+      padding: 0;
+    }
+  }
+
+  &>div {
+    padding: 0 0 64px;
+
+    &>div {
+      max-width: calc(900px + 64px);
+      @media (max-width: 767px) {
+        padding: 0 16px 64px 16px;
+      }
+      & h2 {
+        font-family: Geist;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 28px;
+        leading-trim: NONE;
+        line-height: 36px;
+        text-indent: 0;
+        letter-spacing: -1px;
+        vertical-align: middle;
+        color: #09090B;
+        margin: 0 0 20px;
+        text-align: left;
+        padding: 0;
+        @media (max-width: 767px) {
+          font-size: 24px;
+          line-height: 32px;
+          margin: 0 auto 12px;
+        }
+      }
+
+      & p {
+        font-family: Geist;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 27px;
+        text-indent: 0;
+        letter-spacing: 0;
+        vertical-align: middle;
+        color: #09090B;
+        margin: 0 0 24px;
+        text-align: left;
+        padding: 0;
+      }
+    }
+  }
 }

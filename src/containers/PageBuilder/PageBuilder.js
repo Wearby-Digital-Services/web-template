@@ -11,6 +11,7 @@ import StaticPage from './StaticPage.js';
 
 import css from './PageBuilder.module.css';
 import './LandingPage.module.css'
+import './BecomeSeller.module.css'
 
 const getMetadata = (meta, schemaType, fieldOptions) => {
   const { pageTitle, pageDescription, socialSharing } = meta;

@@ -107,7 +107,9 @@ const SectionFooter = props => {
   // use block builder instead of mapping blocks manually
 
   const routeLocation = useLocation();  
-  const faqBuyerPage = routeLocation.pathname === '/faq-buyer' || routeLocation.pathname === '/faq-buyer/';
+  const faqBuyerPage = routeLocation.pathname === '/faq-buyer'
+   || routeLocation.pathname === '/faq-buyer/'
+   || routeLocation.pathname === '/p/terms-of-service';
  
 
   return (

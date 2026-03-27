@@ -301,10 +301,19 @@ const TopbarComponent = props => {
   };
   const initialSearchFormValues = topbarSearcInitialValues();
 
+  const locationPathname = location.pathname;
+
   const pinkHeader = resolvedCurrentPage == 'FaqBuyerPage';
   const blueHeader = resolvedCurrentPage == 'FaqSellerPage';
+  const yellowHeader = locationPathname == '/p/terms-of-service';
+  const grayHeader = locationPathname == '/p/become-seller';
 
-  const classes = classNames(rootClassName || css.root, pinkHeader && css.pinkHeader, blueHeader && css.blueHeader, className, {
+  const classes = classNames(rootClassName || css.root, 
+    pinkHeader && css.pinkHeader,
+     blueHeader && css.blueHeader, 
+     yellowHeader && css.yellowHeader, 
+     grayHeader && css.grayHeader,
+     className, {
     [css.scrolled]: isScrolled && resolvedCurrentPage == 'LandingPage', [css.landingHeader]: resolvedCurrentPage == 'LandingPage',
   });
 
