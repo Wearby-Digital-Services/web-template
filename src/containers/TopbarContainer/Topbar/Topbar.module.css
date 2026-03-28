@@ -5,7 +5,7 @@
 
   /* Top Bar's drop shadow should always be visible */
   z-index: var(--zIndexTopbar);
-
+background-color: white;
 box-shadow: none;
 
 }

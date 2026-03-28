@@ -42,6 +42,7 @@ const LazyImage = lazyLoadWithDimensions(ResponsiveImage, { loadAfterInitialRend
  * @param {string} props.variantPrefix image variant prefix (e.g. "listing-card")
  * @param {boolean} props.showListingImage whether to show actual listing image or not
  * @param {Object?} props.style the background color for the listing card with no image
+ * @param {string?} props.imageRootClassName optional class for the image root (overrides default rootForImage)
  * @returns {JSX.Element} listing image with fixed aspect ratio or fallback preview
  */
 const ListingCardImage = props => {
@@ -55,6 +56,7 @@ const ListingCardImage = props => {
     variantPrefix,
     aspectRatioClassName,
     lazyLoadImage,
+    imageRootClassName,
   } = props;
 
   const firstImage = listing?.images?.[0] || null;
@@ -73,7 +75,7 @@ const ListingCardImage = props => {
       {...setActivePropsMaybe}
     >
       <ImageComponent
-        rootClassName={css.rootForImage}
+        rootClassName={imageRootClassName || css.rootForImage}
         alt={title}
         image={firstImage}
         variants={variants}
@@ -95,6 +97,8 @@ const ListingCardImage = props => {
  * @param {string?} props.renderSizes for img/srcset
  * @param {Function?} props.setActiveListing
  * @param {boolean?} props.showAuthorInfo
+ * @param {string?} props.variant use `verifiedCreatorCollection` for creator promo cards, or
+ *   `profileProductGrid` for profile listing grid (image, category, title, price, Buy item CTA).
  * @returns {JSX.Element} listing card to be used in search result panel etc.
  */
 export const ListingCard = props => {
@@ -160,6 +164,97 @@ export const ListingCard = props => {
           </div>
         </div>
       </a>
+    );
+  }
+
+  if (variant === 'profileProductGrid') {
+    const translations = getListingCardTranslations(listing, config, intl);
+    const {
+      titlePlain,
+      cardAriaLabel,
+      showPrice,
+      priceTooltip,
+      priceMessage,
+    } = translations;
+
+    const listingUuid = listing?.id?.uuid;
+    const { title = '', publicData } = listing?.attributes || {};
+    const slug = createSlug(title);
+    const { listingType, cardStyle } = publicData || {};
+    const validListingTypes = config.listing.listingTypes || [];
+    const foundListingTypeConfig = validListingTypes.find(conf => conf.listingType === listingType);
+    const showListingImage = requireListingImage(foundListingTypeConfig);
+
+    const {
+      aspectWidth = 317,
+      aspectHeight = 421,
+      variantPrefix = 'card-grid',
+    } = config.layout.listingImage;
+
+    const setActivePropsMaybe = setActiveListing
+      ? {
+          onMouseEnter: () => setActiveListing(listing?.id),
+          onMouseLeave: () => setActiveListing(null),
+        }
+      : null;
+
+    const categoryFromConfig =
+      categoryLabel != null && String(categoryLabel).trim() !== ''
+        ? String(categoryLabel).trim()
+        : foundListingTypeConfig?.label || '';
+    const categoryUpper = categoryFromConfig.toUpperCase();
+
+    const buyItemLabel = intl.formatMessage({ id: 'ListingCard.buyItem' });
+
+    return (
+      <NamedLink
+        className={classNames(classes, css.profileProductRoot)}
+        name="ListingPage"
+        params={{ id: listingUuid, slug }}
+        ariaLabel={cardAriaLabel}
+      >
+        {showListingImage ? (
+          <ListingCardImage
+            renderSizes={renderSizes}
+            title={titlePlain}
+            listing={listing}
+            setActivePropsMaybe={setActivePropsMaybe}
+            aspectWidth={aspectWidth}
+            aspectHeight={aspectHeight}
+            variantPrefix={variantPrefix}
+            aspectRatioClassName={classNames(css.profileProductAspect, aspectRatioClassName)}
+            lazyLoadImage={lazyLoadImage}
+            imageRootClassName={css.profileProductRootForImage}
+          />
+        ) : (
+          <ListingCardThumbnail
+            style={cardStyle}
+            listingTitle={title}
+            className={classNames(css.profileProductAspect, aspectRatioClassName)}
+            width={aspectWidth}
+            height={aspectHeight}
+            setActivePropsMaybe={setActivePropsMaybe}
+          />
+        )}
+
+        <div className={css.profileProductMeta}>
+          {categoryUpper ? (
+            <div className={css.profileProductCategory}>{categoryUpper}</div>
+          ) : null}
+          <div className={css.profileProductTitle}>{titlePlain}</div>
+          {showPrice ? (
+            <div className={css.profileProductPrice} title={priceTooltip}>
+              {priceMessage}
+            </div>
+          ) : null}
+          <div className={css.profileProductCta} aria-hidden="true">
+            <span className={css.profileProductCtaLabel}>{buyItemLabel}</span>
+            <span className={css.profileProductCtaIcon}>
+              <IconCollection name="arrowRight" />
+            </span>
+          </div>
+        </div>
+      </NamedLink>
     );
   }
 

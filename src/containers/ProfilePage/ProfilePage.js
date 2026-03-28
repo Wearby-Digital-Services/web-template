@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import signupImage from '../../assets/images/signupImage.png';
 
 import { useConfiguration } from '../../context/configurationContext';
 import { FormattedMessage, useIntl } from '../../util/reactIntl';
@@ -33,17 +34,19 @@ import { isScrollingDisabled } from '../../ducks/ui.duck';
 import { getMarketplaceEntities } from '../../ducks/marketplaceData.duck';
 import {
   Heading,
-  H2,
   H4,
   Page,
   AvatarLarge,
   NamedLink,
   ListingCard,
   Reviews,
+  Button,
   ButtonTabNavHorizontal,
   LayoutSideNavigation,
   NamedRedirect,
   CustomExtendedDataSection,
+  IconSocialMediaInstagram,
+  IconSocialMediaTwitter,
 } from '../../components';
 
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
@@ -51,30 +54,214 @@ import FooterContainer from '../../containers/FooterContainer/FooterContainer';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 
 import css from './ProfilePage.module.css';
+import IconCollection from '../../components/IconCollection/IconCollection';
 
 const MAX_MOBILE_SCREEN_WIDTH = 768;
 const MIN_LENGTH_FOR_LONG_WORDS = 20;
+const PROFILE_LISTINGS_INITIAL_COUNT = 8;
+
+/** Static “Similar sellers” grid (matches ExploreVerifiedCreators card pattern). */
+const SIMILAR_SELLERS_DATA = [
+  {
+    id: 'similar-lena-hart',
+    category: 'Singer',
+    name: 'Lena Hart',
+    subtitle: 'Content Creator & Entrepreneur',
+    itemsCountText: '20+ items',
+  },
+  {
+    id: 'similar-alex-moreno',
+    category: 'Athletes & Fitness',
+    name: 'Alex Moreno',
+    subtitle: 'Professional Football Player',
+    itemsCountText: '20+ items',
+  },
+  {
+    id: 'similar-daniel-cross',
+    category: 'Performer',
+    name: 'Daniel Cross',
+    subtitle: 'Film & TV Actor',
+    itemsCountText: '20+ items',
+  },
+  {
+    id: 'similar-marco-silva',
+    category: 'Athletes & Fitness',
+    name: 'Marco Silva',
+    subtitle: 'Former National Team Athlete',
+    itemsCountText: '20+ items',
+  },
+];
+
+const TikTokIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+    <path
+      d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64v-3.5a6.67 6.67 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
 export const AsideContent = props => {
-  const { user, displayName, showLinkToProfileSettingsPage } = props;
+  const {
+    user,
+    displayName,
+    showLinkToProfileSettingsPage,
+    bio,
+    listingsCount = 0,
+    publicData,
+    intl,
+    userTypeRoles,
+  } = props;
+
+  const { provider: isProvider } = userTypeRoles || {};
+  const rawJobTitle =
+    publicData?.jobTitle || publicData?.occupation || publicData?.subtitle;
+  const jobTitle =
+    typeof rawJobTitle === 'string' && rawJobTitle.trim()
+      ? rawJobTitle
+      : intl.formatMessage({ id: 'ProfilePage.profileTitleDefault' });
+
+  const bioWithLinks = bio
+    ? richText(bio, {
+        linkify: true,
+        longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS,
+        longWordClass: css.longWord,
+      })
+    : null;
+
+  const aboutBody = bioWithLinks || (
+    <FormattedMessage id="ProfilePage.defaultBio" />
+  );
+
+  const roleBadgeId = isProvider ? 'ProfilePage.roleBadgeCreator' : 'ProfilePage.roleBadgeMember';
+
+  const instagramHref = publicData?.instagramUrl || publicData?.instagram || '#';
+  const twitterHref = publicData?.twitterUrl || publicData?.twitter || '#';
+  const tiktokHref = publicData?.tiktokUrl || publicData?.tiktok || '#';
+
+  const instagramHandle =
+    publicData?.instagramHandle || intl.formatMessage({ id: 'ProfilePage.socialHandleInstagram' });
+  const twitterHandle =
+    publicData?.twitterHandle || intl.formatMessage({ id: 'ProfilePage.socialHandleTwitter' });
+  const tiktokHandle =
+    publicData?.tiktokHandle || intl.formatMessage({ id: 'ProfilePage.socialHandleTiktok' });
+
   return (
     <div className={css.asideContent}>
-      <AvatarLarge className={css.avatar} user={user} disableProfileLink />
-      <H2 as="h1" className={css.mobileHeading}>
-        {displayName ? (
-          <FormattedMessage id="ProfilePage.mobileHeading" values={{ name: displayName }} />
-        ) : null}
-      </H2>
-      {showLinkToProfileSettingsPage ? (
-        <>
-          <NamedLink className={css.editLinkMobile} name="ProfileSettingsPage">
-            <FormattedMessage id="ProfilePage.editProfileLinkMobile" />
-          </NamedLink>
-          <NamedLink className={css.editLinkDesktop} name="ProfileSettingsPage">
-            <FormattedMessage id="ProfilePage.editProfileLinkDesktop" />
-          </NamedLink>
-        </>
-      ) : null}
+      <div className={css.profileHeaderCard}>
+        <div className={css.profileHeaderBanner} aria-hidden />
+        <div className={css.profileHeaderBody}>
+          <div className={css.profileHeaderLayout}>
+            <div className={css.profileHeaderAvatarColumn}>
+              <div className={css.profileHeaderAvatarWrap}>
+                <AvatarLarge
+                  className={css.profileHeaderAvatarShape}
+                  user={user}
+                  disableProfileLink
+                />
+                <span className={css.profileHeaderVerified}>
+                  <IconCollection name="verifyVadge" />
+                </span>
+              </div>
+            </div>
+
+            <div className={css.profileHeaderMain}>
+              <div className={css.profileHeaderTopRow}>
+                <div className={css.profileHeaderIdentity}>
+                  {displayName ? (
+                    <h1 className={css.profileHeaderName}>{displayName}</h1>
+                  ) : null}
+                  <p className={css.profileHeaderSubtitle}>{jobTitle}</p>
+                  <p className={css.profileHeaderRoleBadge}>
+                    <FormattedMessage id={roleBadgeId} />
+                  </p>
+                </div>
+                <div className={css.profileHeaderItemsStat}>
+                  <div className={css.profileHeaderItemsDivider} aria-hidden />
+                  <div className={css.profileHeaderItemsBlock}>
+                    <span className={css.profileHeaderItemsCount}>{listingsCount}</span>
+                    <span className={css.profileHeaderItemsLabel}>
+                      <FormattedMessage id="ProfilePage.itemsLabel" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {showLinkToProfileSettingsPage ? (
+                <div className={css.profileHeaderEditLinks}>
+                  <NamedLink className={css.profileHeaderEditLink} name="ProfileSettingsPage">
+                    <FormattedMessage id="ProfilePage.editProfileLinkMobile" />
+                  </NamedLink>
+                  <NamedLink className={css.profileHeaderEditLinkDesktop} name="ProfileSettingsPage">
+                    <FormattedMessage id="ProfilePage.editProfileLinkDesktop" />
+                  </NamedLink>
+                </div>
+              ) : null}
+
+              <section className={css.profileHeaderAbout} aria-labelledby="profile-about-heading">
+                <h2 id="profile-about-heading" className={css.profileHeaderAboutLabel}>
+                  <FormattedMessage id="ProfilePage.aboutHeading" />
+                </h2>
+                <div className={css.profileHeaderAboutText}>{aboutBody}</div>
+              </section>
+
+              <div className={css.profileHeaderSocial} role="list">
+                <a
+                  className={css.profileHeaderSocialCard}
+                  href={instagramHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  role="listitem"
+                >
+                  <span className={css.profileHeaderSocialIcon}>
+              <IconCollection name="instagram" />
+                  </span>
+                  <span className={css.profileHeaderSocialText}>
+                    <span className={css.profileHeaderSocialPlatform}>
+                      <FormattedMessage id="ProfilePage.socialInstagram" />
+                    </span>
+                    <span className={css.profileHeaderSocialHandle}>{instagramHandle}</span>
+                  </span>
+                </a>
+                <a
+                  className={css.profileHeaderSocialCard}
+                  href={twitterHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  role="listitem"
+                >
+                  <span className={css.profileHeaderSocialIcon}>
+                <IconCollection name="twitter" />
+                  </span>
+                  <span className={css.profileHeaderSocialText}>
+                    <span className={css.profileHeaderSocialPlatform}>
+                      <FormattedMessage id="ProfilePage.socialTwitter" />
+                    </span>
+                    <span className={css.profileHeaderSocialHandle}>{twitterHandle}</span>
+                  </span>
+                </a>
+                <a
+                  className={css.profileHeaderSocialCard}
+                  href={tiktokHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  role="listitem"
+                >
+                  <span className={css.profileHeaderSocialIconTiktok}>
+                    <TikTokIcon />
+                  </span>
+                  <span className={css.profileHeaderSocialText}>
+                    <span className={css.profileHeaderSocialPlatform}>
+                      <FormattedMessage id="ProfilePage.socialTiktok" />
+                    </span>
+                    <span className={css.profileHeaderSocialHandle}>{tiktokHandle}</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -242,6 +429,8 @@ export const CustomUserFields = props => {
 
 export const MainContent = props => {
   const [mounted, setMounted] = useState(false);
+  const [listingCategorySort, setListingCategorySort] = useState('all');
+  const [showAllListings, setShowAllListings] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -250,7 +439,7 @@ export const MainContent = props => {
     userShowError,
     bio,
     displayName,
-    listings,
+    listings = [],
     queryListingsError,
     reviews = [],
     queryReviewsError,
@@ -262,7 +451,16 @@ export const MainContent = props => {
     userTypeRoles,
   } = props;
 
+  useEffect(() => {
+    setShowAllListings(false);
+  }, [listings.length]);
+
   const hasListings = listings.length > 0;
+  const displayedListings =
+    !hasListings || showAllListings || listings.length <= PROFILE_LISTINGS_INITIAL_COUNT
+      ? listings
+      : listings.slice(0, PROFILE_LISTINGS_INITIAL_COUNT);
+  const showLoadMoreListings = hasListings && listings.length > PROFILE_LISTINGS_INITIAL_COUNT && !showAllListings;
   const hasMatchMedia = typeof window !== 'undefined' && window?.matchMedia;
   const isMobileLayout =
     mounted && hasMatchMedia
@@ -270,11 +468,6 @@ export const MainContent = props => {
       : true;
 
   const hasBio = !!bio;
-  const bioWithLinks = richText(bio, {
-    linkify: true,
-    longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS,
-    longWordClass: css.longWord,
-  });
 
   const listingsContainerClasses = classNames(css.listingsContainer, {
     [css.withBioMissingAbove]: !hasBio,
@@ -289,11 +482,6 @@ export const MainContent = props => {
   }
   return (
     <div>
-      <H2 as="h1" className={css.desktopHeading}>
-        <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
-      </H2>
-      {hasBio ? <p className={css.bio}>{bioWithLinks}</p> : null}
-
       {displayName ? (
         <CustomUserFields
           publicData={publicData}
@@ -305,19 +493,55 @@ export const MainContent = props => {
 
       {hasListings ? (
         <div className={listingsContainerClasses}>
-          <H4 as="h2" className={css.listingsTitle}>
-            <FormattedMessage id="ProfilePage.listingsTitle" values={{ count: listings.length }} />
-          </H4>
+          <div className={css.listingsToolbar}>
+            <div className={css.listingsToolbarLeft}>
+              <h2 className={css.listingsTab}>
+                <FormattedMessage id="ProfilePage.listingsTab" />
+              </h2>
+            </div>
+            <div className={css.listingsToolbarRight}>
+              <span className={css.listingsSortLabel}>
+                <FormattedMessage id="ProfilePage.sortByLabel" />
+              </span>
+              <select
+                className={css.listingsSortSelect}
+                value={listingCategorySort}
+                onChange={e => setListingCategorySort(e.target.value)}
+                aria-label={intl.formatMessage({ id: 'ProfilePage.sortCategoryAria' })}
+              >
+                <option value="all">
+                  {intl.formatMessage({ id: 'ProfilePage.sortAllCategories' })}
+                </option>
+              </select>
+            </div>
+          </div>
           <ul className={css.listings}>
-            {listings.map(l => (
+            {displayedListings.map(l => (
               <li className={css.listing} key={l.id.uuid}>
-                <ListingCard listing={l} showAuthorInfo={false} />
+                <ListingCard
+                  listing={l}
+                  variant="profileProductGrid"
+                  showAuthorInfo={false}
+                  intl={intl}
+                />
               </li>
             ))}
           </ul>
+          {showLoadMoreListings ? (
+            <div className={css.listingsLoadMore}>
+              <Button
+                type="button"
+                className={css.listingsLoadMoreButton}
+                onClick={() => setShowAllListings(true)}
+              >
+                <FormattedMessage id="ProfilePage.loadMoreListings" />
+                <IconCollection name="arrowRight" />
+              </Button>
+            </div>
+          ) : null}
         </div>
       ) : null}
-      {hideReviews ? null : isMobileLayout ? (
+      {/* {hideReviews ? null : isMobileLayout ? (
         <MobileReviews
           reviews={reviews}
           queryReviewsError={queryReviewsError}
@@ -330,7 +554,7 @@ export const MainContent = props => {
           userTypeRoles={userTypeRoles}
           intl={intl}
         />
-      )}
+      )} */}
     </div>
   );
 };
@@ -367,6 +591,7 @@ export const ProfilePageComponent = props => {
     useCurrentUser,
     userShowError,
     user,
+    listings = [],
     ...rest
   } = props;
   const isVariant = pathParams.variant?.length > 0;
@@ -463,18 +688,18 @@ export const ProfilePageComponent = props => {
         name: schemaTitle,
       }}
     >
-      <LayoutSideNavigation
-        sideNavClassName={css.aside}
-        topbar={<TopbarContainer />}
-        sideNav={
-          <AsideContent
+      <TopbarContainer />
+      <div className={css.profilePageContent}>
+      <AsideContent
             user={profileUser}
             showLinkToProfileSettingsPage={mounted && isCurrentUser}
             displayName={displayName}
+            bio={bio}
+            listingsCount={listings.length}
+            publicData={publicData}
+            intl={intl}
+            userTypeRoles={userTypeRoles}
           />
-        }
-        footer={<FooterContainer />}
-      >
         <MainContent
           bio={bio}
           displayName={displayName}
@@ -485,9 +710,49 @@ export const ProfilePageComponent = props => {
           hideReviews={hasNoViewingRightsOnPrivateMarketplace}
           intl={intl}
           userTypeRoles={userTypeRoles}
+          listings={listings}
           {...rest}
         />
-      </LayoutSideNavigation>
+        <section
+          className={css.similarSellers}
+          aria-labelledby="profile-similar-sellers-heading"
+        >
+          <div className={css.similarSellersInner}>
+            <header className={css.similarSellersHeader}>
+              <Heading
+                as="h2"
+                styledAs="h2"
+                id="profile-similar-sellers-heading"
+                rootClassName={css.similarSellersTitle}
+              >
+                <FormattedMessage id="ProfilePage.similarSellersTitle" />
+              </Heading>
+              <p className={css.similarSellersSubtitle}>
+                <FormattedMessage id="ProfilePage.similarSellersSubtitle" />
+              </p>
+            </header>
+            <div className={css.similarSellersGrid} role="list">
+              {SIMILAR_SELLERS_DATA.map(seller => (
+                <div key={seller.id} className={css.similarSellersItem} role="listitem">
+                  <ListingCard
+                    className={css.similarSellersCard}
+                    variant="verifiedCreatorCollection"
+                    thumbnailSrc={signupImage}
+                    itemsCountText={seller.itemsCountText}
+                    categoryLabel={seller.category}
+                    creatorName={seller.name}
+                    creatorSubtitle={seller.subtitle}
+                    ctaText={intl.formatMessage({ id: 'ProfilePage.similarSellersViewCollection' })}
+                    ctaHref="#"
+                    intl={intl}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+        <FooterContainer />
     </Page>
   );
 };

@@ -299,3 +299,140 @@
 .verifiedCreatorRoot:hover .verifiedCreatorCta {
   border-color: #b8bfd1;
 }
+
+/* ================= Profile product grid (profile listings) ================= */
+
+.profileProductRoot {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.profileProductRoot:hover {
+  text-decoration: none;
+}
+
+.profileProductAspect {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f1f1f1;
+  &>div{
+    padding-bottom: 134% !important;
+  }
+}
+
+.profileProductRootForImage {
+  border: none;
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileProductMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 12px;
+}
+
+.profileProductCategory {
+  margin: 0;
+  padding: 0;
+  font-family: var(--fontFamily);
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: var(--fontWeightSemiBold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #4F46E5CC;
+
+  @media (--viewportMedium) {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
+
+.profileProductTitle {
+  margin: 4px 0 0;
+  padding: 0;
+  font-family: var(--fontFamily);
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 500;
+  color: #09090B;   
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+word-break: break-all;
+}
+
+.profileProductPrice {
+  margin: 4px 0 0;
+  padding: 0;
+  font-family: var(--fontFamily);
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: var(--fontWeightBold);
+  color: #09090B;
+}
+
+.profileProductPrice .priceValue,
+.profileProductPrice .perUnit {
+  font-weight: 500;
+}
+
+.profileProductCta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 18px;
+  height: 40px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border-radius: 100px;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: Geist;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 27px;
+  text-indent: 0;
+  letter-spacing: 0;
+  vertical-align: middle;
+  
+  & svg{
+    fill: transparent;
+    width: 20px;
+  }
+}
+
+.profileProductCtaLabel {
+  color: #ffffff;
+}
+
+.profileProductCtaIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileProductCtaIcon svg {
+  display: block;
+}
+
+.profileProductCtaIcon svg path {
+  stroke: #ffffff;
+}
+
+.profileProductRoot:hover .profileProductCta {
+  opacity: 0.92;
+}

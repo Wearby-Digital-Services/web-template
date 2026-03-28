@@ -164,7 +164,7 @@ describe('ProfilePage', () => {
       });
     });
 
-    expect(screen.getByText('ProfilePage.listingsTitle')).toBeInTheDocument();
+    expect(screen.getByText('ProfilePage.listingsTab')).toBeInTheDocument();
     expect(screen.getByText('l1 title')).toBeInTheDocument();
     expect(screen.getByText('ListingCard.price')).toBeInTheDocument();
   });
