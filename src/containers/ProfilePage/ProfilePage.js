@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import signupImage from '../../assets/images/signupImage.png';
-
 import { useConfiguration } from '../../context/configurationContext';
 import { FormattedMessage, useIntl } from '../../util/reactIntl';
 import { REVIEW_TYPE_OF_PROVIDER, REVIEW_TYPE_OF_CUSTOMER, propTypes } from '../../util/types';
@@ -55,6 +53,7 @@ import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 
 import css from './ProfilePage.module.css';
 import IconCollection from '../../components/IconCollection/IconCollection';
+import SimilarSellersSlider from './SimilarSellersSlider';
 
 const MAX_MOBILE_SCREEN_WIDTH = 768;
 const MIN_LENGTH_FOR_LONG_WORDS = 20;
@@ -81,6 +80,20 @@ const SIMILAR_SELLERS_DATA = [
     category: 'Performer',
     name: 'Daniel Cross',
     subtitle: 'Film & TV Actor',
+    itemsCountText: '20+ items',
+  },
+  {
+    id: 'similar-marco-silva',
+    category: 'Athletes & Fitness',
+    name: 'Marco Silva',
+    subtitle: 'Former National Team Athlete',
+    itemsCountText: '20+ items',
+  },
+  {
+    id: 'similar-marco-silva',
+    category: 'Athletes & Fitness',
+    name: 'Marco Silva',
+    subtitle: 'Former National Team Athlete',
     itemsCountText: '20+ items',
   },
   {
@@ -731,24 +744,7 @@ export const ProfilePageComponent = props => {
                 <FormattedMessage id="ProfilePage.similarSellersSubtitle" />
               </p>
             </header>
-            <div className={css.similarSellersGrid} role="list">
-              {SIMILAR_SELLERS_DATA.map(seller => (
-                <div key={seller.id} className={css.similarSellersItem} role="listitem">
-                  <ListingCard
-                    className={css.similarSellersCard}
-                    variant="verifiedCreatorCollection"
-                    thumbnailSrc={signupImage}
-                    itemsCountText={seller.itemsCountText}
-                    categoryLabel={seller.category}
-                    creatorName={seller.name}
-                    creatorSubtitle={seller.subtitle}
-                    ctaText={intl.formatMessage({ id: 'ProfilePage.similarSellersViewCollection' })}
-                    ctaHref="#"
-                    intl={intl}
-                  />
-                </div>
-              ))}
-            </div>
+            <SimilarSellersSlider sellers={SIMILAR_SELLERS_DATA} intl={intl} />
           </div>
         </section>
       </div>

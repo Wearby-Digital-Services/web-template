@@ -840,6 +840,7 @@
   "ProfilePage.similarSellersTitle": "Ähnliche Verkäufer",
   "ProfilePage.similarSellersSubtitle": "Entdecke andere verifizierte Verkäufer, die dir gefallen könnten.",
   "ProfilePage.similarSellersViewCollection": "Kollektion ansehen",
+  "ProfilePage.similarSellersCarouselLabel": "Karussell ähnlicher Verkäufer",
   "ProfilePage.loadMoreListings": "Mehr laden",
   "ProfilePage.loadingDataFailed": "Hoppla, etwas ist schiefgelaufen. Bitte versuche es erneut.",
   "ProfilePage.loadingReviewsFailed": "Fehler beim Laden der Bewertungen.",

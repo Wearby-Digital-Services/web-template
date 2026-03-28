@@ -840,6 +840,7 @@
   "ProfilePage.similarSellersTitle": "Vendedores similares",
   "ProfilePage.similarSellersSubtitle": "Descubre otros vendedores verificados que te pueden gustar.",
   "ProfilePage.similarSellersViewCollection": "Ver colección",
+  "ProfilePage.similarSellersCarouselLabel": "Carrusel de vendedores similares",
   "ProfilePage.loadMoreListings": "Cargar más",
   "ProfilePage.loadingDataFailed": "Algo salió mal. Inténtalo de nuevo.",
   "ProfilePage.loadingReviewsFailed": "Error al cargar las evaluaciones.",
